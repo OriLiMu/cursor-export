@@ -6,6 +6,27 @@ const { exportAllChatHistory } = require('./index.js');
 const { exportAllWorkspaces } = require('./exportFiles/fileExporter');
 const path = require('path');
 const fs = require('fs');
+const os = require('os');
+
+// 基于操作系统确定默认工作区路径
+function getDefaultWorkspacePath() {
+  const homeDir = os.homedir();
+  
+  // 检测操作系统类型
+  if (process.platform === 'darwin') {
+    // macOS
+    return path.join(homeDir, 'Library', 'Application Support', 'Cursor', 'User', 'workspaceStorage');
+  } else if (process.platform === 'linux') {
+    // Linux (包括Manjaro)
+    return path.join(homeDir, '.config', 'Cursor', 'User', 'workspaceStorage');
+  } else if (process.platform === 'win32') {
+    // Windows
+    return path.join(homeDir, 'AppData', 'Roaming', 'Cursor', 'User', 'workspaceStorage');
+  }
+  
+  // 默认返回macOS路径作为后备
+  return path.join(homeDir, 'Library', 'Application Support', 'Cursor', 'User', 'workspaceStorage');
+}
 
 async function main () {
   const argv = yargs(hideBin(process.argv))
@@ -14,7 +35,7 @@ async function main () {
       alias: 'w',
       describe: 'Path to Cursor workspace storage',
       type: 'string',
-      default: '/Users/scott/Library/Application Support/Cursor/User/workspaceStorage'
+      default: getDefaultWorkspacePath()
     })
     .help('h')
     .alias('h', 'help')

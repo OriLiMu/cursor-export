@@ -11,10 +11,15 @@ npm install -g cursor-export
 Or run directly with npx:
 
 ```bash
-# Replace {scott} with your username
+# Replace with the appropriate path for your operating system
+# macOS:
+npx cursor-export --workspacePath="/Users/<username>/Library/Application Support/Cursor/User/workspaceStorage"
 
-npx cursor-export --workspacePath="/Users/scott/Library/Application Support/Cursor/User/workspaceStorage"
+# Linux:
+npx cursor-export --workspacePath="/home/<username>/.config/Cursor/User/workspaceStorage"
 
+# Windows:
+npx cursor-export --workspacePath="C:\Users\<username>\AppData\Roaming\Cursor\User\workspaceStorage"
 ```
 
 ## Usage
@@ -24,7 +29,7 @@ cursor-export [options]
 
 Options:
   -w, --workspacePath  Path to Cursor workspace storage
-                       [default: "/Users/scott/Library/Application Support/Cursor/User/workspaceStorage"]
+                       [automatically detected based on your OS]
   -h, --help         Show help information
 
 Example Output:
